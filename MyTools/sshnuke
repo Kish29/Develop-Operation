@@ -1,0 +1,27 @@
+#! /usr/bin/python3.6
+
+import getopt
+import sys
+
+
+def args_resolv(argv):
+	if len(argv) == 0:
+		print("help")
+		exit(1)
+
+	# args must assigned here
+	opts, args = getopt.getopt(argv, "hi:p:", ["help", "ip=", "port="])
+
+	for option, value in opts:
+		if option in ("-h", "--help"):
+			print("help")
+		if option in ("-i", "--ip"):
+			print("Conneting to {0}".format(value), end=' ')
+			print("... Successful.")
+		if option in ("-p", "--port"):
+			print("Brute port {0}".format(value), end=' ')
+			print("... Successful.")
+
+
+if __name__ == "__main__":
+	args_resolv(sys.argv[1:])

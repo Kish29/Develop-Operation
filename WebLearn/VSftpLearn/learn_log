@@ -1,0 +1,70 @@
+1. download vsftpd
+	yum install vsftpd -y
+
+2. edit vsftpd.conf
+	vim /etc/vsftpd/vsftp.conf
+
+3. close firewall service
+	systemctl stop firewalld.service
+
+4. open vsftpd
+	systemctl start vsftpd.service
+
+5. add ftp user
+	groupadd ftpusers
+	useradd ftpadmin -g ftpusers -d /home/ftpusers/ftpadmin
+
+	tips: if you create a new user such as:
+				useradd ftpusers
+		and then, you create another user grouped by the former and set the home directory:
+				useradd ftpadmin -g ftpusers -d /home/ftpusers
+		then, you login in via ftp command:
+				user ftpadmin
+		and you will get mistake such as follows:
+				500 OOPS: cannot change directory /home/ftpuser/ftpadmin
+		So, you'd better add ftpusers by using the groupadd command to create the group you want, 
+		and make a directory in /home:
+				mkdir /home/ftpusers
+		and create new user by delegate group:
+				useradd ftpadmin -g ftpusers -d /home/ftpusers/ftpadmin
+
+		and the best way to add a new ftp-user safely is create a script!
+
+6. ftp command
+	ftp 127.0.0.1 / ftp
+	ftp > open 127.0.0.1
+	ftp > user xxx
+		then enter password
+
+7. solving ftp 'ls' command not show directory files:
+	a. vim /etc/selinux/config
+		-> change enforcing to disable
+	b. reboot the machine
+	c. typing 'setsebool 0' to disable selinux
+	d. start the vsftpd service
+
+8. change password by using one command
+	echo your_password | passwd --std user_name    # --stdin is required
+
+9. some tips in /etc/vsftp/vsftp.conf
+	a. comments must occupied one line independently, or it will make a mistake in service starting
+	b. anonymous users' configuration must add behind 'write_enable=YES'
+
+10. add privileges for anonymous users to upload files and download files
+	after adding privileges in config file(/etc/vsftpd/vsftpd.conf)
+	you have to change privileges for the directory:
+		chmod o+w xxx / chmod 777 xxx
+
+11. add virtual user tips:
+	a. create v_users.list:
+		Jack		---- user name
+		123456		---- password
+	b. use db_load to encryption
+		db_load -T -t hash -f v_users.list v_users.db
+	c. change vsftpd.conf
+		use /etc/pam.d/vsftpd
+		!!!!!! pay attention here, in vsftpd, you must only remain the:
+			auth	   required	pam_userdb.so	db=/etc/vsftpd/v_users/v_users
+			account	   required	pam_userdb.so	db=/etc/vsftpd/v_users/v_users
+		two lines, otherwise it will fail if you use ftp to login
+	d. ...

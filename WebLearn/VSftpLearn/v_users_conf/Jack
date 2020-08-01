@@ -1,0 +1,17 @@
+# Jack虚拟用户配置文件路径
+local_root=/home/vsftpd_virtual/Jack
+
+# 允许登录用户具有写权限
+write_enable=YES
+
+# 允许匿名用户下载，然后读取文件
+anon_world_readable_only=YES
+
+# 允许匿名用户上传文件权限，只有在write_enable=YES时该参数才生效
+anon_upload_enable=YES
+
+# 允许匿名用户创建目录，只有在write_enable=YES时该参数才生效
+anon_mkdir_write_enable=YES
+
+# 允许匿名用户的其他权限，例如删除、重名名等
+anon_other_write_enable=YES
