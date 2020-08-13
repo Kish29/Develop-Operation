@@ -68,3 +68,8 @@
 			account	   required	pam_userdb.so	db=/etc/vsftpd/v_users/v_users
 		two lines, otherwise it will fail if you use ftp to login
 	d. ...
+
+12. add ftp service when firewall service is running
+	firewall-cmd --zone=public --add-service=ftp --permanent
+	systemctl restart firewalld.service
+

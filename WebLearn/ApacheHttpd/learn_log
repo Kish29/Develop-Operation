@@ -1,0 +1,10 @@
+1. add http service in firewall whitelist
+	firewall-cmd --zone=public --add-service=http --permanent
+
+2. add domain ServerName in Client(Windows OS)
+	run cmd in administrator
+	cd /Windows/System32/drivers/etc
+	adapt host
+	add lines:
+		192.168.1.120	www.jar.com
+		192.168.43.233	www.jar.com
