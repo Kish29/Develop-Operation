@@ -44,7 +44,7 @@
 	d. start the vsftpd service
 
 8. change password by using one command
-	echo your_password | passwd --std user_name    # --stdin is required
+	echo your_password | passwd --stdin user_name    # --stdin is required
 
 9. some tips in /etc/vsftp/vsftp.conf
 	a. comments must occupied one line independently, or it will make a mistake in service starting
